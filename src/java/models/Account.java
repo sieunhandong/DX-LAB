@@ -23,12 +23,11 @@ public class Account {
     private String specialization;
     private int role_id;
     private byte is_active;
-    private String certificate;
 
     public Account() {
     }
 
-    public Account(String user_id, String username, String password, String full_name, Date dob, String gender, String phone_number, String avatar, String specialization, int role_id, byte is_active, String certificate) {
+    public Account(String user_id, String username, String password, String full_name, Date dob, String gender, String phone_number, String avatar, String specialization, int role_id, byte is_active) {
         this.user_id = user_id;
         this.username = username;
         this.password = password;
@@ -40,7 +39,6 @@ public class Account {
         this.specialization = specialization;
         this.role_id = role_id;
         this.is_active = is_active;
-        this.certificate = certificate;
     }
 
     public String getUser_id() {
@@ -131,13 +129,7 @@ public class Account {
         this.is_active = is_active;
     }
 
-    public String getCertificate() {
-        return certificate;
-    }
-
-    public void setCertificate(String certiicate) {
-        this.certificate = certiicate;
-    }
+   
 
     
 }
