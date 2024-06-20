@@ -8,7 +8,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import models.Certificate;
 import models.Interns;
 
 
@@ -169,12 +171,135 @@ public int editCertificate(int cerId, String cerName, Date issueDate, String cer
         }
         return 0;
     }
-    
-    public static void main(String[] args) {
-        MentorDAO dao = new MentorDAO();
-        List<Interns> list = dao.getAllInterns();
-        for (Interns interns : list) {
-            System.out.println(interns ); // In ra thông tin của mỗi đối tượng Intern
+    public List<Projects> getALLProjectByMentor(String mentor_id) {
+        List<Projects> list = new ArrayList<>();
+        String query = "SELECT * FROM Projects p\n"
+                + "WHERE p.mentor_id LIKE ?";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, mentor_id);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Projects(rs.getString(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getDate(6),
+                        rs.getDate(7)));
+            }
+        } catch (Exception e) {
+        }
+        return list;
+    }
+
+    public List<Positions> getAllPositionByMentor(String mentor_id) {
+        List<Positions> list = new ArrayList<>();
+        String query = "SELECT  pos.position_code, pos.position_name, pos.position_count\n"
+                + "FROM Positions pos\n"
+                + "JOIN Projects p ON p.project_code = pos.project_code\n"
+                + "WHERE p.mentor_id LIKE ?";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, mentor_id);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Positions(rs.getString(1),
+                        rs.getString(2),
+                        rs.getInt(3)));
+            }
+        } catch (Exception e) {
+        }
+        return list;
+    }
+
+    public void addNotification(String send_id, String project_code, String position_code, Date date_start, Time time, String message, String title, String room, String link) {
+        String query = "INSERT INTO [dbo].[Notifications]\n"
+                + "           ([sender_id]\n"
+                + "           ,[project_code]\n"
+                + "           ,[position_code]\n"
+                + "           ,[message]\n"
+                + "           ,[title]\n"
+                + "           ,[Time]\n"
+                + "           ,[date_start]\n"
+                + "           ,[room]\n"
+                + "           ,[link])\n"
+                + "     VALUES  (?,?,?,?,?,?,?,?,?)";
+
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, send_id);
+            ps.setString(2, project_code);
+            ps.setString(3, position_code);
+            ps.setString(4, message);
+            ps.setString(5, title);
+            ps.setTime(6, time);
+            ps.setDate(7, new java.sql.Date(date_start.getTime()));
+            ps.setString(8, room);
+            ps.setString(9, link);
+
+            ps.executeUpdate();
+        } catch (Exception e) {
         }
     }
+
+    public List<Notifications> getAllNotificationByMentor(String user_id) {
+     List<Notifications> list = new ArrayList<>();
+        String query = "SELECT * FROM Notifications Where sender_id LIKE ?";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, user_id);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Notifications(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getString(6),
+                        rs.getString(7),
+                        rs.getTime(8),
+                        rs.getDate(9),
+                        rs.getString(10),
+                        rs.getString(11)));
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // In lỗi ra console để kiểm tra
+        }
+        return list;
+    }
+
+    public List<Notifications> getAllInterviewScheduleByMentorId(String mentorId) {
+        List<Notifications> list = new ArrayList<>();
+        String query = "select * from Notifications n\n"
+                + "where n.mentor_id LIKE ?";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, mentorId);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Notifications(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getString(6),
+                        rs.getString(7),
+                        rs.getTime(8),
+                        rs.getDate(9),
+                        rs.getString(10),
+                        rs.getString(11)));
+            }
+        } catch (Exception e) {
+
+        }
+        return list;
+    }
+    
+   
 }
