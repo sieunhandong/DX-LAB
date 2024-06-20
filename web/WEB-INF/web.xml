@@ -64,6 +64,35 @@
         <servlet-name>ListInter</servlet-name>
         <servlet-class>controllerMentor.ListInter</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>NewsManage</servlet-name>
+        <servlet-class>controllerLabManager.NewsManage</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteNews</servlet-name>
+        <servlet-class>controllerLabManager.DeleteNews</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddNews</servlet-name>
+        <servlet-class>controllerLabManager.AddNews</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LoadNews</servlet-name>
+        <servlet-class>controllerLabManager.LoadNews</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>EditNews</servlet-name>
+        <servlet-class>controllerLabManager.EditNews</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewNews</servlet-name>
+        <servlet-class>controllerLabManager.ViewNews</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SearchNews</servlet-name>
+        <servlet-class>controllerLabManager.SearchNews</servlet-class>
+    </servlet>
+    
     <!--dong-->
     <servlet>
         <servlet-name>RecruimentManage</servlet-name>
@@ -140,6 +169,34 @@
     <servlet-mapping>
         <servlet-name>ListInter</servlet-name>
         <url-pattern>/ListInter</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NewsManage</servlet-name>
+        <url-pattern>/NewsManage</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteNews</servlet-name>
+        <url-pattern>/DeleteNews</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddNews</servlet-name>
+        <url-pattern>/AddNews</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoadNews</servlet-name>
+        <url-pattern>/LoadNews</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EditNews</servlet-name>
+        <url-pattern>/EditNews</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewNews</servlet-name>
+        <url-pattern>/ViewNews</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SearchNews</servlet-name>
+        <url-pattern>/SearchNews</url-pattern>
     </servlet-mapping>
     <!--dong-->
     <servlet-mapping>
