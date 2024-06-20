@@ -35,12 +35,12 @@
         <servlet-class>controllerITAdmin.CreateAccount</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>CreateAccountCandidate</servlet-name>
-        <servlet-class>controllerITAdmin.CreateAccountCandidate</servlet-class>
+        <servlet-name>CreateAccount</servlet-name>
+        <servlet-class>controllerITAdmin.CreateAccount</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ViewUserAccount</servlet-name>
-        <servlet-class>controllerITAdmin.ViewUserAccount</servlet-class>
+        <servlet-name>CreateAccount</servlet-name>
+        <servlet-class>controllerITAdmin.CreateAccount</servlet-class>
     </servlet>
     <!--chien-->
     <servlet>
@@ -54,6 +54,30 @@
     <servlet>
         <servlet-name>ViewMember</servlet-name>
         <servlet-class>controllerIntern.ViewMember</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Certificate</servlet-name>
+        <servlet-class>controllerIntern.Certificate</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SubmitReport</servlet-name>
+        <servlet-class>controllerIntern.SubmitReport</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Message</servlet-name>
+        <servlet-class>controllerMentor.message</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AddCertificate</servlet-name>
+        <servlet-class>controllerMentor.CertificateControll</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>GetCertificate</servlet-name>
+        <servlet-class>controllerMentor.GetCertificate</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewReport</servlet-name>
+        <servlet-class>controllerIntern.ViewReport</servlet-class>
     </servlet>
     <!--huyen-->
     <servlet>
@@ -160,6 +184,30 @@
     <servlet-mapping>
         <servlet-name>ViewMember</servlet-name>
         <url-pattern>/ViewMember</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Certificate</servlet-name>
+        <url-pattern>/Certificate</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SubmitReport</servlet-name>
+        <url-pattern>/submitReport</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Message</servlet-name>
+        <url-pattern>/message</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddCertificate</servlet-name>
+        <url-pattern>/addCertificate</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GetCertificate</servlet-name>
+        <url-pattern>/getCertificate</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewReport</servlet-name>
+        <url-pattern>/viewReport</url-pattern>
     </servlet-mapping>
     <!--huyen-->
     <servlet-mapping>
