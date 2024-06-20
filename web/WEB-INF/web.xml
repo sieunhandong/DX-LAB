@@ -35,12 +35,16 @@
         <servlet-class>controllerITAdmin.CreateAccount</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>CreateAccount</servlet-name>
-        <servlet-class>controllerITAdmin.CreateAccount</servlet-class>
+        <servlet-name>CreateAccountCandidate</servlet-name>
+        <servlet-class>controllerITAdmin.CreateAccountCandidate</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>CreateAccount</servlet-name>
-        <servlet-class>controllerITAdmin.CreateAccount</servlet-class>
+        <servlet-name>ViewUserInfor</servlet-name>
+        <servlet-class>controllerITAdmin.ViewUserInfor</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ViewAccount</servlet-name>
+        <servlet-class>controllerITAdmin.ViewAccount</servlet-class>
     </servlet>
     <!--chien-->
     <servlet>
@@ -169,8 +173,12 @@
         <url-pattern>/createAccountCandidate</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ViewUserAccount</servlet-name>
-        <url-pattern>/viewUserAccount</url-pattern>
+        <servlet-name>ViewUserInfor</servlet-name>
+        <url-pattern>/viewUserInfor</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ViewAccount</servlet-name>
+        <url-pattern>/viewAccount</url-pattern>
     </servlet-mapping>
     <!--chien-->
     <servlet-mapping>
