@@ -54,7 +54,7 @@ public class LoginControl extends HttpServlet {
     }
     
     private boolean isFirstLogin(Account acc) {
-        return acc.getFull_name() == null || acc.getDob() == null || acc.getPhone_number() == null;
+        return acc.getFull_name() == null ;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
