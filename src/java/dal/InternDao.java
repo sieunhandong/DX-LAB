@@ -4,6 +4,7 @@
  */
 package dal;
 
+import controllerIntern.Certificate;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,9 +14,10 @@ import java.util.Date;
 import java.util.List;
 import models.Account;
 import models.Attendance;
-import models.Certificate;
+
 import models.Interns;
 import models.MemberWithPosition;
+
 import models.Messages;
 import models.Notes;
 import models.Notifications;
@@ -303,27 +305,26 @@ public class InternDao {
         }
         return 0;
     }
-    
-    public List<String> getInbox(int internId) {
-    List<String> list = new ArrayList<>();
-    String query = "SELECT DISTINCT m.receiver_id "
-            + "FROM Messages m "
-            + "JOIN Account a ON a.user_id = m.sender_id "
-            + "JOIN Interns i ON i.user_id = a.user_id "
-            + "WHERE i.intern_id = ?;";
-    try (Connection conn = new DBContext().getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
-        ps.setInt(1, internId);
-        try (ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
-                list.add(rs.getString("receiver_id"));
-            }
-        }
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-    return list;
-}
 
+    public List<String> getInbox(int internId) {
+        List<String> list = new ArrayList<>();
+        String query = "SELECT DISTINCT m.receiver_id "
+                + "FROM Messages m "
+                + "JOIN Account a ON a.user_id = m.sender_id "
+                + "JOIN Interns i ON i.user_id = a.user_id "
+                + "WHERE i.intern_id = ?;";
+        try (Connection conn = new DBContext().getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setInt(1, internId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    list.add(rs.getString("receiver_id"));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
 
 //    public void deleteNote(int internId, String noteContent, Date createdAt) {
 //        String query = "DELETE FROM [dbo].[Notes] WHERE [intern_id] = ? AND [note] = ? AND [created_at] = ?";
@@ -340,19 +341,18 @@ public class InternDao {
 //
 //        }
 //    }
- public List<Certificate> getListCertificate(int internId) {
-        List<Certificate> list = new ArrayList<>();
+    public List<models.Certificate> getListCertificate(int internId) {
+        List<models.Certificate> list = new ArrayList<>();
         String query = "SELECT * FROM Certificate WHERE intern_id = ?";
-        try (Connection conn = new DBContext().getConnection(); 
-             PreparedStatement ps = conn.prepareStatement(query)) {
+        try (Connection conn = new DBContext().getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setInt(1, internId);
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    Certificate c = new Certificate(
+                    models.Certificate c = new models.Certificate(
                             rs.getInt("cer_id"),
                             rs.getString("cer_name"),
                             rs.getDate("issue_date"),
-                            rs.getString("cer_company"),
+                            rs.getString("project_code"),
                             rs.getString("cer_img"),
                             rs.getString("cer_link"),
                             rs.getInt("intern_id"),
@@ -366,7 +366,7 @@ public class InternDao {
         }
         return list;
     }
-
+    
     public List<Reports> getListReports(int internId) {
         List<Reports> list = new ArrayList<>();
         String query = "SELECT * FROM Reports WHERE intern_id = ? ORDER BY report_id DESC";
@@ -395,7 +395,9 @@ public class InternDao {
     public int createReport(int internId, int week, String report, String reportLink, String mentorId, String projectCode) {
         String query = "INSERT INTO Reports (intern_id, week, report, report_link, mentor_id, project_code) "
                 + "VALUES (?, ?, ?, ?, ?, ?)";
-        try (Connection conn = new DBContext().getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
             ps.setInt(1, internId);
             ps.setInt(2, week);
             ps.setString(3, report);
@@ -409,23 +411,68 @@ public class InternDao {
         return 0;
     }
 
-    public int editReport(int internId, int week, String report, String reportLink, String mentorId, String projectCode) {
-        String query = "UPDATE Reports SET report = ?, report_link = ?, mentor_id = ?, project_code = ? WHERE intern_id = ? AND week = ?";
-        try (Connection conn = new DBContext().getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+    public int editReport(int reportId, String report, String reportLink, String mentorId, String projectCode) {
+        String query = "UPDATE Reports SET report = ?, report_link = ?, mentor_id = ?, project_code = ? WHERE report_id=?";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
             ps.setString(1, report);
             ps.setString(2, reportLink);
             ps.setString(3, mentorId);
             ps.setString(4, projectCode);
-            ps.setInt(5, internId);
-            ps.setInt(6, week);
+            ps.setInt(5, reportId);
+
             return ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return 0;
     }
+
+    public String getMentoridbyProjectcode(String projectCode) {
+
+        String query = "SELECT mentor_id from interns WHERE project_code = ?";
+        String mentorId = null;
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, projectCode);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                mentorId = rs.getString("mentor_id");
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return mentorId;
+    }
+
+    public Reports getReportById(int reportId) {
+        String query = "SELECT * FROM Reports WHERE report_id = ?";
+        try (Connection conn = new DBContext().getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setInt(1, reportId);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return new Reports(
+                            rs.getInt("report_id"),
+                            rs.getInt("intern_id"),
+                            rs.getInt("week"),
+                            rs.getString("report"),
+                            rs.getString("report_link"),
+                            rs.getString("mentor_id"),
+                            rs.getString("project_code")
+                    );
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     
-        public List<Notifications> getAllNotificationByIntern(String userId) {
+    public List<Notifications> getAllNotificationByIntern(String userId) {
         List<Notifications> list = new ArrayList<>();
         String query = "SELECT *\n"
                 + "from Notifications n\n"
@@ -443,11 +490,12 @@ public class InternDao {
                         rs.getString(4),
                         rs.getString(5),
                         rs.getString(6),
-                        rs.getString(7),
-                        rs.getTime(8),
+                        rs.getTime(7),
+                        rs.getDate(8),
                         rs.getDate(9),
                         rs.getString(10),
-                        rs.getString(11)));
+                        rs.getString(11),
+                        rs.getString(12)));
             }
         } catch (Exception e) {
 
@@ -456,7 +504,40 @@ public class InternDao {
 
     }
 
-    public static void main(String[] args) {
+    public Notifications getNotificationById(int notificationId) {
+        String query = "SELECT * \n"
+                + "FROM Notifications \n"
+                + "WHERE notification_id = ?";
+        Notifications notification = null;
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, notificationId);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                notification = new Notifications(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getString(6),
+                        rs.getTime(7),
+                        rs.getDate(8),
+                        rs.getDate(9),
+                        rs.getString(10),
+                        rs.getString(11),
+                        rs.getString(12));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return notification;
+    }
 
+    public static void main(String[] args) {
+        InternDao dao = new InternDao();
+
+        List<models.Certificate> internId = dao.getListCertificate(7);
+        System.out.println(internId);
     }
 }

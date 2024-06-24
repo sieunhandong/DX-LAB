@@ -5,22 +5,23 @@
 
 package controllerMentor;
 
-import dal.MentorDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
+import dal.MentorDAO;
 import jakarta.servlet.http.HttpSession;
 import models.Account;
-import models.Certificate;
+import models.Projects;
 
 /**
  *
  * @author NXC2003
  */
-public class GetCertificate extends HttpServlet {
+public class ChooseProjectCode extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -34,18 +35,12 @@ public class GetCertificate extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
         Account acc = (Account) session.getAttribute("account");
-        
         MentorDAO dao = new MentorDAO();
+        String userId = acc.getUser_id();
         
-        if(acc == null){
-            response.sendRedirect("error404.jsp");
-        }else{
-            String cer_idStr = request.getParameter("cer_id");
-            int cer_id = Integer.parseInt(cer_idStr);
-            Certificate cer = dao.getCertificateById(cer_id);
-            request.setAttribute("certi", cer);
-            request.getRequestDispatcher("editCertificate.jsp").forward(request, response);
-        }
+        List<Projects> listProject = dao.getProjectCodebyMentor(userId);
+            request.setAttribute("listProject", listProject);
+            request.getRequestDispatcher("viewCertificatebyMentor.jsp").forward(request, response);
     } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
