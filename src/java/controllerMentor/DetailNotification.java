@@ -4,7 +4,7 @@
  */
 package controllerMentor;
 
-import dal.MentorDAO;
+import dal.InternDao;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -12,15 +12,12 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import models.Notifications;
-import java.util.List;
-import models.Account;
-import models.InterviewSchedule;
 
 /**
  *
  * @author admin
  */
-public class ViewInterviewScheduleByMentor extends HttpServlet {
+public class DetailNotification extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,35 +31,32 @@ public class ViewInterviewScheduleByMentor extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ViewInterviewScheduleByMentor</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ViewInterviewScheduleByMentor at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        String notificationIdStr = request.getParameter("notificationId");
+        try {
+            int notificationId = Integer.parseInt(notificationIdStr);
+            Notifications notification = (new InternDao()).getNotificationById(notificationId);
+            request.setAttribute("notification", notification);
+            request.getRequestDispatcher("DetailNotification.jsp").forward(request, response);
+        } catch (Exception e) {
+
         }
     }
 
+   
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Account acc = (Account) request.getSession().getAttribute("account");
-        String userId = acc.getUser_id();
-        try {
-            MentorDAO dao = new MentorDAO();
-            List<InterviewSchedule> listInterviewSchedule = dao.getAllInterviewScheduleByMentorId(userId);
-            request.setAttribute("listInterviewSchedule", listInterviewSchedule);
-            request.getRequestDispatcher("InterviewSchedule.jsp").forward(request, response);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        processRequest(request, response);
     }
 
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
