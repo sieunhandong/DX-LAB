@@ -17,8 +17,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import models.Account;
+import models.InterviewSchedule;
 import models.Notifications;
 import models.ProjectWithPositions;
+import models.Projects;
 
 /**
  *
@@ -63,51 +65,23 @@ public class InterviewScheduleManage extends HttpServlet {
             service = "listAll";
         }
         if (service.equals("listAll")) {
-            List<Notifications> notification = (new HRDAO()).getAllInterviewScheduleByHR(user_id);
-            request.setAttribute("allInterviewSchedule", notification);
+            List<InterviewSchedule> list = (new HRDAO()).getAllInterviewScheduleByHR(user_id);
+            request.setAttribute("allInterviewSchedule", list);
             request.getRequestDispatcher("InterviewSchedule.jsp").forward(request, response);
         }
-        //goi form create Interview Schedule
-        if (service.equals("requestInsert")) {
-            List<ProjectWithPositions> listProject = (new HRDAO()).getAllProjectsWithPositions();
-            List<Account> listMentor = (new HRDAO()).getAllMentor();
-            request.setAttribute("listMentor", listMentor);
+        if (service.equals("chooseProject")) {
+            List<Projects> listProject = (new HRDAO()).getAllProjectbyHR();
             request.setAttribute("listProject", listProject);
-            request.setAttribute("createInterviewSchedule", "createInterviewSchedule");
             request.getRequestDispatcher("InterviewSchedule.jsp").forward(request, response);
         }
-        //form create interview schedule
-        if (service.equals("sendInsertDetail")) {
-            String sendId = request.getParameter("send_id");
-            String mentorId = request.getParameter("mentor_id");
-            String projectCode = request.getParameter("project_code");
-            String dateStr = request.getParameter("date");
-            String timeStr = request.getParameter("time");
-            String message = request.getParameter("message");
-            String title = request.getParameter("title");
-            String room = request.getParameter("room");
-            
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            String timePattern = "^([01]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$";
-            if (!timeStr.matches(timePattern)) {
-                List<Notifications> notification = (new HRDAO()).getAllInterviewScheduleByHR(user_id);
-                request.setAttribute("allInterviewSchedule", notification);
-                request.setAttribute("InsertDone", "Create failed: Time format is incorrect! Please use HH:mm:ss format.");
-                request.getRequestDispatcher("InterviewSchedule.jsp").forward(request, response);
-                return;
-            }
-            try {
-                Date dateStart = dateFormat.parse(dateStr);
-                Time time = Time.valueOf(timeStr);
-                HRDAO dao = new HRDAO();
-                dao.addInterviewShedule(sendId, mentorId, projectCode, dateStart, time, message, title, room);
-                request.setAttribute("InsertDone", "Insert Successful!");
-            } catch (ParseException e) {
-                request.setAttribute("InsertDone", "Create failed!");
-            } catch (Exception e) {
-                request.setAttribute("InsertDone", "Create failed: " + e.getMessage());
-            }
-            response.sendRedirect("interviewScheduleManage");
+        // goi form create Interview Schedule
+        if (service.equals("requestInsert")) {
+            String mentorId = request.getParameter("mentorId");
+            String projectCode = request.getParameter("projectCode");
+            request.setAttribute("listMentor", mentorId);
+            request.setAttribute("listProject", projectCode);
+            request.setAttribute("createInterviewSchedule", "createInterviewSchedule");
+            request.getRequestDispatcher("CreateInterviewSchedule.jsp").forward(request, response);
         }
     }
 

@@ -43,7 +43,7 @@ public class GetCertificate extends HttpServlet {
             String cer_idStr = request.getParameter("cer_id");
             int cer_id = Integer.parseInt(cer_idStr);
             Certificate cer = dao.getCertificateById(cer_id);
-            request.setAttribute("certificate", cer);
+            request.setAttribute("certi", cer);
             request.getRequestDispatcher("editCertificate.jsp").forward(request, response);
         }
     } 

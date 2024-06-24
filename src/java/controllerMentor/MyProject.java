@@ -3,25 +3,23 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
 
-package controllerLabManager;
+package controllerMentor;
 
-import dal.LabManagerDAO;
+import dal.MentorDAO;
 import java.io.IOException;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-
 import java.util.List;
-import models.Account;
-import models.News;
+import models.Projects;
 
 /**
  *
- * @author ADM
+ * @author admin
  */
-public class NewsManage extends HttpServlet {
+public class MyProject extends HttpServlet {
    
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -33,15 +31,12 @@ public class NewsManage extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-       HttpSession session = request.getSession();
-        Account account = (Account) session.getAttribute("account");
-        String userId = account.getUser_id();
-        LabManagerDAO newsDAO = new LabManagerDAO();
-        List<News> newsList = newsDAO.getAllNewsByuserID(userId);
-        request.setAttribute("newsList", newsList);
-        request.getRequestDispatcher("CreateNews.jsp").forward(request, response);
-    }
-       
+        String mentor_id = request.getParameter("userId");
+        MentorDAO dao = new MentorDAO();
+        List<Projects> list = dao.getALLProjectByMentor(mentor_id);
+        request.setAttribute("list", list);
+        request.getRequestDispatcher("MyProject.jsp").forward(request, response);
+    } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /** 
