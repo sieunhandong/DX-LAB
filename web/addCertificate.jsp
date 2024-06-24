@@ -40,9 +40,9 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="cer_company" class="form-label">Project:</label>
-                    <input type="text" class="form-control" id="cer_company" name="cer_company" required>
-                </div>
+                    <label for="project_code" class="form-label">Project Code:</label>
+                    <input type="text" class="form-control" id="project_code" name="project_code" value="${projectCode}" required>
+                  </div>
 
                 <div class="mb-3">
                     <label for="cer_img" class="form-label">Image:</label>
@@ -55,8 +55,12 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="intern_id" class="form-label">Intern ID:</label>
-                    <input type="number" class="form-control" id="intern_id" name="intern_id" required>
+                    <label for="intern_id" class="form-label">Users ID:</label>
+                    <select class="form-control" id="intern_id" name="intern_id" required>
+                     <c:forEach var="intern" items="${listIntern}">
+                            <option value="${intern.internId}">${intern.userId}</option>
+                        </c:forEach>
+                    </select>
                 </div>
 
                 <div class="mb-3">
