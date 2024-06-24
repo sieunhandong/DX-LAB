@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -55,22 +56,52 @@ public class UpdateProfile extends HttpServlet {
         String dobStr = request.getParameter("dob");
         String gender = request.getParameter("gender");
         String phone_number = request.getParameter("phone_number");
-        String avatar = acc.getAvatar(); 
+        String avatar = acc.getAvatar();
         String specialization = request.getParameter("specialization");
 
+//        Part filePart = request.getPart("avatarNew");
+//        String imgFileName = filePart.getSubmittedFileName();
+//
+//        if (imgFileName != null && !imgFileName.isEmpty()) {
+//            String uploadPath = "D:/SWP/SWP_Iter2/web/img/" + imgFileName;
+//            FileOutputStream fos = new FileOutputStream(uploadPath);
+//            InputStream is = filePart.getInputStream();
+//            byte[] data = new byte[is.available()];
+//            is.read(data);
+//            fos.write(data);
+//            fos.close();
+//
+//            avatar = imgFileName;
+//        }
         Part filePart = request.getPart("avatarNew");
         String imgFileName = filePart.getSubmittedFileName();
 
         if (imgFileName != null && !imgFileName.isEmpty()) {
-            String uploadPath = "D:/SWP/SWP_Iter2/web/img/" + imgFileName;
-            FileOutputStream fos = new FileOutputStream(uploadPath);
-            InputStream is = filePart.getInputStream();
-            byte[] data = new byte[is.available()];
-            is.read(data);
-            fos.write(data);
-            fos.close();
+            // Lấy đường dẫn tương đối từ thư mục triển khai của ứng dụng web
+            String uploadPath = getServletContext().getRealPath("/img");
 
-            avatar = imgFileName;
+            // Kiểm tra và tạo thư mục nếu chưa tồn tại
+            File uploadDir = new File(uploadPath);
+            if (!uploadDir.exists()) {
+                uploadDir.mkdirs();
+            }
+
+            // Đường dẫn đầy đủ tới tệp sẽ được lưu
+            String filePath = uploadPath + File.separator + imgFileName;
+
+            // Lưu tệp
+            try (FileOutputStream fos = new FileOutputStream(filePath); InputStream is = filePart.getInputStream()) {
+                byte[] buffer = new byte[1024];
+                int bytesRead;
+                while ((bytesRead = is.read(buffer)) != -1) {
+                    fos.write(buffer, 0, bytesRead);
+                }
+
+                // Đặt tên avatar thành tên tệp
+                avatar = imgFileName;
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -90,9 +121,9 @@ public class UpdateProfile extends HttpServlet {
                 request.getRequestDispatcher("updateProfile.jsp").forward(request, response);
                 return;
             }
-            
-            if (imgFileName != null && !imgFileName.isEmpty()) {
-                String mimeType = getServletContext().getMimeType(imgFileName);
+
+            if (avatar != null && !avatar.isEmpty()) {
+                String mimeType = getServletContext().getMimeType(avatar);
                 if (mimeType == null || !mimeType.startsWith("image")) {
                     request.setAttribute("messErrorAvatar", "Avatar must be an image file.");
                     request.getRequestDispatcher("updateProfile.jsp").forward(request, response);
