@@ -245,12 +245,13 @@
                             <li class="header-nav-list-item"><a href="home.jsp">Home</a></li>
                             <li class="header-nav-list-item"><a href="viewRecruiment">Recruitment</a></li>
                             <li class="header-nav-list-item">
-                                <a href="viewInterviewSchedule?projectCode=${sessionScope.projectCode.projectCode}">Interview Schedule</a>
+                                <a href="viewInterviewSchedule">Interview Schedule</a>
                             </li>
                             <li class="header-nav-list-item"><a href="">Notifications</a></li>
                             <li class="header-nav-list-item"><a href="ViewNews">News</a></li>
                         </ul>
                     </c:if>
+
                     <c:if test="${sessionScope.account.role_id == 5}">
                         <ul class="header-nav-list">
                             <li class="header-nav-list-item"><a href="home.jsp">Home</a></li>
@@ -265,9 +266,8 @@
                             <li class="header-nav-list-item"><a href="home.jsp">Home</a></li>
                             <li class="header-nav-list-item"><a href="viewRecruiment">Recruitment</a></li>
                             <li class="header-nav-list-item">
-                                <a href="viewInterviewScheduleByMentor?userId=${sessionScope.account.user_id}">Interview Schedule</a>
+                                <a href="viewInterviewScheduleByMentor">Interview Schedule</a>
                             </li>
-                            <li class="header-nav-list-item"><a href="notification">Notifications</a></li>
                             <li class="header-nav-list-item"><a href="ViewNews">News</a></li>
                         </ul>
                     </c:if>
@@ -327,9 +327,10 @@
                         <ul class="nav-links-item">
                             <li class="nav-links-item-li"><a href="home.jsp">Home Mentor</a></li>
                             <li class="nav-links-item-li"><a href="viewUserAccount?service=ViewListCandidate">Candidate Apply</a></li>
-                            <li class="nav-links-item-li"><a href="myProject.jsp">My Project</a></li>
+                            <li class="nav-links-item-li"><a href="myProject?userId=${sessionScope.account.user_id}">My Project</a></li>
                             <li class="nav-links-item-li" ><a href="addCertificate?user_id=${sessionScope.account.user_id}">Add Certificate</a></li>
                             <li class="nav-links-item-li"><a href="CheckAttendance">Check Attendance</a></li>
+                            <li class="nav-links-item-li"><a href="ViewReportsMentor">Report Manage </a></li>
                         </ul>
                     </c:if>
                     <c:if test="${sessionScope.account.role_id == 3}">
