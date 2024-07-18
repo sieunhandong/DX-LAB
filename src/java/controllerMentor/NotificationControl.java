@@ -2,9 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controllerHR;
+package controllerMentor;
 
 import dal.HRDAO;
+import dal.MentorDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -17,8 +18,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import models.Account;
-import models.InterviewSchedule;
 import models.Notifications;
+import models.Positions;
 import models.ProjectWithPositions;
 import models.Projects;
 
@@ -26,7 +27,7 @@ import models.Projects;
  *
  * @author admin
  */
-public class InterviewScheduleManage extends HttpServlet {
+public class NotificationControl extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,49 +41,55 @@ public class InterviewScheduleManage extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet InterviewScheduleManage</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet InterviewScheduleManage at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
-
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
         String service = request.getParameter("service");
-        request.setAttribute("interviewScheduleManage", "Yes");
+        request.setAttribute("notificationControl", "Yes");
         Account acc = (Account) request.getSession().getAttribute("account");
         String user_id = acc.getUser_id();
+        String projectCodeStr = request.getParameter("projectCode");
+
         if (service == null) {
             service = "listAll";
         }
         if (service.equals("listAll")) {
-            List<InterviewSchedule> list = (new HRDAO()).getAllInterviewScheduleByHR(user_id);
-            request.setAttribute("allInterviewSchedule", list);
-            request.getRequestDispatcher("InterviewSchedule.jsp").forward(request, response);
+            List<Notifications> notification = (new MentorDAO()).getAllNotificationByMentor(projectCodeStr);
+            request.setAttribute("allNotification", notification);
+            request.setAttribute("projectCode", projectCodeStr);
+            request.getRequestDispatcher("Notification.jsp").forward(request, response);
         }
-        if (service.equals("chooseProject")) {
-            List<Projects> listProject = (new HRDAO()).getAllProjectbyHR();
-            request.setAttribute("listProject", listProject);
-            request.getRequestDispatcher("InterviewSchedule.jsp").forward(request, response);
-        }
-        // goi form create Interview Schedule
         if (service.equals("requestInsert")) {
-            String mentorId = request.getParameter("mentorId");
             String projectCode = request.getParameter("projectCode");
-            request.setAttribute("listMentor", mentorId);
-            request.setAttribute("listProject", projectCode);
-            request.setAttribute("createInterviewSchedule", "createInterviewSchedule");
-            request.getRequestDispatcher("CreateInterviewSchedule.jsp").forward(request, response);
+            List<Positions> listPosition = (new MentorDAO()).getAllPositionByProjectCode(projectCodeStr);
+            request.setAttribute("projectCode", projectCode);
+            request.setAttribute("listPosition", listPosition);
+            request.setAttribute("createNotification", "createNotification");
+            request.getRequestDispatcher("CreateNotification.jsp").forward(request, response);
         }
+        if (service.equals("deleteNotification")) {
+            String notificationIdStr = request.getParameter("notificationId");
+            String projectCode = request.getParameter("projectCode");
+            int notificationId = Integer.parseInt(notificationIdStr);
+            MentorDAO dao = new MentorDAO();
+            dao.deleteNotificationById(notificationId);
+            List<Notifications> list = (new MentorDAO()).getAllNotificationByMentor(projectCode);
+            request.setAttribute("projectCode", projectCode);
+            request.setAttribute("allNotification", list);
+            request.getRequestDispatcher("Notification.jsp").forward(request, response);
+        }
+    }
+
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
     }
 
     /**

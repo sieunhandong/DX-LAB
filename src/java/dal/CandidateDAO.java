@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import models.Applications;
 import models.CandidateApply;
+import models.InterviewSchedule;
 import models.Notifications;
 
 /**
@@ -105,31 +106,33 @@ public class CandidateDAO extends DBContext {
         }
         return list;
     }
+
     //view lich phong van
-    public Notifications getInterviewScheduleByProjectCode(String projectCode) {
-        String query = "select * from Notifications n\n"
-                + "where n.project_code LIKE ?";
+    public List<InterviewSchedule> getInterviewScheduleByUserId(String userId) {
+        List<InterviewSchedule> list = new ArrayList<>();
+        String query = "Select * \n"
+                + "from InterviewSchedule i\n"
+                + "join Applications a on i.project_code = a.project_code\n"
+                + "where a.applicant_id LIKE ?";
         try {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query);
-            ps.setString(1, projectCode);
+            ps.setString(1, userId);
             rs = ps.executeQuery();
             while (rs.next()) {
-                return new Notifications(rs.getInt(1),
+                list.add(new InterviewSchedule(rs.getInt(1),
                         rs.getString(2),
                         rs.getString(3),
                         rs.getString(4),
                         rs.getString(5),
                         rs.getString(6),
-                        rs.getString(7),
-                        rs.getTime(8),
-                        rs.getDate(9),
-                        rs.getString(10),
-                        rs.getString(11));
+                        rs.getTime(7),
+                        rs.getDate(8),
+                        rs.getString(9)));
             }
         } catch (Exception e) {
 
         }
-        return null;
+        return list;
     }
 }
