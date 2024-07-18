@@ -5,381 +5,386 @@
         <servlet-name>HomeControl</servlet-name>
         <servlet-class>controllerCommon.HomeControl</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>HomeControl</servlet-name>
+        <url-pattern>/home</url-pattern>
+    </servlet-mapping>
     <servlet>
         <servlet-name>LoginControl</servlet-name>
         <servlet-class>controllerCommon.LoginControl</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>LoginControl</servlet-name>
+        <url-pattern>/login</url-pattern>
+    </servlet-mapping>
     <servlet>
         <servlet-name>UpdateProfileFirstTime</servlet-name>
         <servlet-class>controllerCandidate.UpdateProfileFirstTime</servlet-class>
     </servlet>
-    <servlet>
-        <servlet-name>Attendance</servlet-name>
-        <servlet-class>controllerMentor.Attendance</servlet-class>
-    </servlet>
+    <servlet-mapping>
+        <servlet-name>UpdateProfileFirstTime</servlet-name>
+        <url-pattern>/updateFirst</url-pattern>
+    </servlet-mapping>
     <servlet>
         <servlet-name>UpdateProfile</servlet-name>
         <servlet-class>controllerCommon.UpdateProfile</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>UpdateProfile</servlet-name>
+        <url-pattern>/updateProfile</url-pattern>
+    </servlet-mapping>
     <servlet>
-        <servlet-name>ChangeInfoOfUser</servlet-name>
-        <servlet-class>controllerCommon.ChangeInfoOfUser</servlet-class>
+        <servlet-name>ChangePassword</servlet-name>
+        <servlet-class>controllerCommon.ChangePassword</servlet-class>
     </servlet>
-    <servlet>
-        <servlet-name>ChangePassOfUser</servlet-name>
-        <servlet-class>controllerCommon.ChangePassOfUser</servlet-class>
-    </servlet>
+    <servlet-mapping>
+        <servlet-name>ChangePassword</servlet-name>
+        <url-pattern>/changePassword</url-pattern>
+    </servlet-mapping>
     <servlet>
         <servlet-name>UserInfoControl</servlet-name>
         <servlet-class>controllerCommon.UserInfoControl</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>UserInfoControl</servlet-name>
+        <url-pattern>/userInfo</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ForgotPasssword</servlet-name>
+        <servlet-class>controllerCommon.ForgotPasssword</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ForgotPasssword</servlet-name>
+        <url-pattern>/forgotPasssword</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ValidateOtp</servlet-name>
+        <servlet-class>controllerCommon.ValidateOtp</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ValidateOtp</servlet-name>
+        <url-pattern>/validateOtp</url-pattern>
+    </servlet-mapping>
     <!--/linh-->
     <servlet>
         <servlet-name>CreateAccount</servlet-name>
         <servlet-class>controllerITAdmin.CreateAccount</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>CreateAccount</servlet-name>
+        <url-pattern>/createAccount</url-pattern>
+    </servlet-mapping>
     <servlet>
         <servlet-name>CreateAccountCandidate</servlet-name>
         <servlet-class>controllerITAdmin.CreateAccountCandidate</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>CreateAccountCandidate</servlet-name>
+        <url-pattern>/createAccountCandidate</url-pattern>
+    </servlet-mapping>
     <servlet>
         <servlet-name>ViewUserInfor</servlet-name>
         <servlet-class>controllerITAdmin.ViewUserInfor</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>ViewUserInfor</servlet-name>
+        <url-pattern>/viewUserInfor</url-pattern>
+    </servlet-mapping>
     <servlet>
         <servlet-name>ViewAccount</servlet-name>
         <servlet-class>controllerITAdmin.ViewAccount</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>ViewAccount</servlet-name>
+        <url-pattern>/viewAccount</url-pattern>
+    </servlet-mapping>
+    
     <!--chien-->
     <servlet>
         <servlet-name>ViewProject</servlet-name>
         <servlet-class>controllerIntern.ViewProject</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>ViewProject</servlet-name>
+        <url-pattern>/viewProject</url-pattern>
+    </servlet-mapping>
     <servlet>
         <servlet-name>NotesControll</servlet-name>
         <servlet-class>controllerIntern.NotesControll</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>NotesControll</servlet-name>
+        <url-pattern>/note</url-pattern>
+    </servlet-mapping>
     <servlet>
         <servlet-name>ViewMember</servlet-name>
         <servlet-class>controllerIntern.ViewMember</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>ViewMember</servlet-name>
+        <url-pattern>/ViewMember</url-pattern>
+    </servlet-mapping>
     <servlet>
         <servlet-name>Certificate</servlet-name>
         <servlet-class>controllerIntern.Certificate</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>Certificate</servlet-name>
+        <url-pattern>/Certificate</url-pattern>
+    </servlet-mapping>
     <servlet>
         <servlet-name>SubmitReport</servlet-name>
         <servlet-class>controllerIntern.SubmitReport</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>SubmitReport</servlet-name>
+        <url-pattern>/submitReport</url-pattern>
+    </servlet-mapping>
     <servlet>
         <servlet-name>Message</servlet-name>
         <servlet-class>controllerMentor.message</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>Message</servlet-name>
+        <url-pattern>/message</url-pattern>
+    </servlet-mapping>
     <servlet>
         <servlet-name>AddCertificate</servlet-name>
         <servlet-class>controllerMentor.CertificateControll</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>AddCertificate</servlet-name>
+        <url-pattern>/addCertificate</url-pattern>
+    </servlet-mapping>
     <servlet>
         <servlet-name>GetCertificate</servlet-name>
         <servlet-class>controllerMentor.GetCertificate</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>GetCertificate</servlet-name>
+        <url-pattern>/getCertificate</url-pattern>
+    </servlet-mapping>
     <servlet>
         <servlet-name>ViewReport</servlet-name>
         <servlet-class>controllerIntern.ViewReport</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>ViewReport</servlet-name>
+        <url-pattern>/viewReport</url-pattern>
+    </servlet-mapping>
     <!--huyen-->
     <servlet>
         <servlet-name>CheckAttendance</servlet-name>
         <servlet-class>controllerMentor.CheckAttendance</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>CheckAttendance</servlet-name>
+        <url-pattern>/CheckAttendance</url-pattern>
+    </servlet-mapping>
     <servlet>
         <servlet-name>ListInter</servlet-name>
         <servlet-class>controllerMentor.ListInter</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>ListInter</servlet-name>
+        <url-pattern>/ListInter</url-pattern>
+    </servlet-mapping>
     <servlet>
         <servlet-name>NewsManage</servlet-name>
         <servlet-class>controllerLabManager.NewsManage</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>NewsManage</servlet-name>
+        <url-pattern>/NewsManage</url-pattern>
+    </servlet-mapping>
     <servlet>
         <servlet-name>DeleteNews</servlet-name>
         <servlet-class>controllerLabManager.DeleteNews</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>DeleteNews</servlet-name>
+        <url-pattern>/DeleteNews</url-pattern>
+    </servlet-mapping>
     <servlet>
         <servlet-name>AddNews</servlet-name>
         <servlet-class>controllerLabManager.AddNews</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>AddNews</servlet-name>
+        <url-pattern>/AddNews</url-pattern>
+    </servlet-mapping>
     <servlet>
         <servlet-name>LoadNews</servlet-name>
         <servlet-class>controllerLabManager.LoadNews</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>LoadNews</servlet-name>
+        <url-pattern>/LoadNews</url-pattern>
+    </servlet-mapping>
     <servlet>
         <servlet-name>EditNews</servlet-name>
         <servlet-class>controllerLabManager.EditNews</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>EditNews</servlet-name>
+        <url-pattern>/EditNews</url-pattern>
+    </servlet-mapping>
     <servlet>
         <servlet-name>ViewNews</servlet-name>
         <servlet-class>controllerLabManager.ViewNews</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>ViewNews</servlet-name>
+        <url-pattern>/ViewNews</url-pattern>
+    </servlet-mapping>
     <servlet>
         <servlet-name>SearchNews</servlet-name>
         <servlet-class>controllerLabManager.SearchNews</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>SearchNews</servlet-name>
+        <url-pattern>/SearchNews</url-pattern>
+    </servlet-mapping>
     
+    <servlet>
+        <servlet-name>ViewReportsMentor</servlet-name>
+        <servlet-class>controllerMentor.ViewReportsMentor</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ViewReportsMentor</servlet-name>
+        <url-pattern>/ViewReportsMentor</url-pattern>
+    </servlet-mapping>
     <!--dong-->
     <servlet>
         <servlet-name>RecruimentManage</servlet-name>
         <servlet-class>controllerHR.RecruimentManage</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>RecruimentManage</servlet-name>
+        <url-pattern>/manageRecruiment</url-pattern>
+    </servlet-mapping>
     <servlet>
         <servlet-name>CandidateManage</servlet-name>
         <servlet-class>controllerCandidate.CandidateManage</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>CandidateManage</servlet-name>
+        <url-pattern>/CandidateManage</url-pattern>
+    </servlet-mapping>
     <servlet>
         <servlet-name>DetailProject</servlet-name>
         <servlet-class>controllerHR.DetailProject</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>DetailProject</servlet-name>
+        <url-pattern>/detailProject</url-pattern>
+    </servlet-mapping>
     <servlet>
         <servlet-name>CreateRecruiment</servlet-name>
         <servlet-class>controllerHR.CreateRecruiment</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>CreateRecruiment</servlet-name>
+        <url-pattern>/createRecruiment</url-pattern>
+    </servlet-mapping>
     <servlet>
         <servlet-name>ViewRecruiment</servlet-name>
         <servlet-class>controllerHR.ViewRecruiment</servlet-class>
     </servlet>
-    <servlet>
-        <servlet-name>DeleteControl</servlet-name>
-        <servlet-class>controllerHR.DeleteProject</servlet-class>
-    </servlet>
+    <servlet-mapping>
+        <servlet-name>ViewRecruiment</servlet-name>
+        <url-pattern>/viewRecruiment</url-pattern>
+    </servlet-mapping>
     <servlet>
         <servlet-name>NotificationManage</servlet-name>
         <servlet-class>controllerHR.NotificationManage</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>NotificationManage</servlet-name>
+        <url-pattern>/notificationManage</url-pattern>
+    </servlet-mapping>
     <servlet>
         <servlet-name>ViewInterviewSchedule</servlet-name>
         <servlet-class>controllerCandidate.ViewInterviewSchedule</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>ViewInterviewSchedule</servlet-name>
+        <url-pattern>/viewInterviewSchedule</url-pattern>
+    </servlet-mapping>
     <servlet>
         <servlet-name>InterviewScheduleManage</servlet-name>
         <servlet-class>controllerHR.InterviewScheduleManage</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>InterviewScheduleManage</servlet-name>
+        <url-pattern>/interviewScheduleManage</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ViewInterviewScheduleByMentor</servlet-name>
+        <servlet-class>controllerMentor.ViewInterviewScheduleByMentor</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ViewInterviewScheduleByMentor</servlet-name>
+        <url-pattern>/viewInterviewScheduleByMentor</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ViewNotificationByIntern</servlet-name>
+        <servlet-class>controllerIntern.ViewNotificationByIntern</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ViewNotificationByIntern</servlet-name>
+        <url-pattern>/viewNotificationByIntern</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>DeleteControll</servlet-name>
+        <servlet-class>controllerHR.DeleteControll</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>MyProject</servlet-name>
+        <servlet-class>controllerMentor.MyProject</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProjectManageByMentor</servlet-name>
+        <servlet-class>controllerMentor.ProjectManageByMentor</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>NotificationControl</servlet-name>
         <servlet-class>controllerMentor.NotificationControl</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ViewInterviewScheduleByMentor</servlet-name>
-        <servlet-class>controllerMentor.ViewInterviewScheduleByMentor</servlet-class>
+        <servlet-name>CreateNotification</servlet-name>
+        <servlet-class>controllerMentor.CreateNotification</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ViewNotificationByIntern</servlet-name>
-        <servlet-class>controllerIntern.ViewNotificationByIntern</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>DeleteNotification</servlet-name>
-        <servlet-class>controllerHR.DeleteNotification</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>CreateRecruiment</servlet-name>
-        <servlet-class>controllerHR.CreateRecruiment</servlet-class>
-    </servlet>
-    <!--vietanh-->
-    <servlet>
-        <servlet-name>ForgotPasssword</servlet-name>
-        <servlet-class>controllerCommon.ForgotPasssword</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>ValidateOtp</servlet-name>
-        <servlet-class>controllerCommon.ValidateOtp</servlet-class>
+        <servlet-name>DetailNotification</servlet-name>
+        <servlet-class>controllerMentor.DetailNotification</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>HomeControl</servlet-name>
-        <url-pattern>/home</url-pattern>
+        <servlet-name>DeleteControll</servlet-name>
+        <url-pattern>/deleteControll</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>LoginControl</servlet-name>
-        <url-pattern>/login</url-pattern>
+        <servlet-name>MyProject</servlet-name>
+        <url-pattern>/myProject</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>UpdateProfileFirstTime</servlet-name>
-        <url-pattern>/updateFirst</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>UpdateProfile</servlet-name>
-        <url-pattern>/updateProfile</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ChangeInfoOfUser</servlet-name>
-        <url-pattern>/changeInfoOfUser</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ChangePassOfUser</servlet-name>
-        <url-pattern>/changePassOfUser</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>UserInfoControl</servlet-name>
-        <url-pattern>/userInfo</url-pattern>
-    </servlet-mapping>
-    <!--linh-->
-    <servlet-mapping>
-        <servlet-name>CreateAccount</servlet-name>
-        <url-pattern>/createAccount</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>CreateAccountCandidate</servlet-name>
-        <url-pattern>/createAccountCandidate</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ViewUserInfor</servlet-name>
-        <url-pattern>/viewUserInfor</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ViewAccount</servlet-name>
-        <url-pattern>/viewAccount</url-pattern>
-    </servlet-mapping>
-    <!--chien-->
-    <servlet-mapping>
-        <servlet-name>ViewProject</servlet-name>
-        <url-pattern>/viewProject</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>NotesControll</servlet-name>
-        <url-pattern>/note</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ViewMember</servlet-name>
-        <url-pattern>/ViewMember</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>Certificate</servlet-name>
-        <url-pattern>/Certificate</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>SubmitReport</servlet-name>
-        <url-pattern>/submitReport</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>Message</servlet-name>
-        <url-pattern>/message</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>AddCertificate</servlet-name>
-        <url-pattern>/addCertificate</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>GetCertificate</servlet-name>
-        <url-pattern>/getCertificate</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ViewReport</servlet-name>
-        <url-pattern>/viewReport</url-pattern>
-    </servlet-mapping>
-    <!--huyen-->
-    <servlet-mapping>
-        <servlet-name>CheckAttendance</servlet-name>
-        <url-pattern>/CheckAttendance</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ListInter</servlet-name>
-        <url-pattern>/ListInter</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>NewsManage</servlet-name>
-        <url-pattern>/NewsManage</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>DeleteNews</servlet-name>
-        <url-pattern>/DeleteNews</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>AddNews</servlet-name>
-        <url-pattern>/AddNews</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>LoadNews</servlet-name>
-        <url-pattern>/LoadNews</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>EditNews</servlet-name>
-        <url-pattern>/EditNews</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ViewNews</servlet-name>
-        <url-pattern>/ViewNews</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>SearchNews</servlet-name>
-        <url-pattern>/SearchNews</url-pattern>
-    </servlet-mapping>
-    <!--dong-->
-    <servlet-mapping>
-        <servlet-name>RecruimentManage</servlet-name>
-        <url-pattern>/manageRecruiment</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>CandidateManage</servlet-name>
-        <url-pattern>/CandidateManage</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>DetailProject</servlet-name>
-        <url-pattern>/detailProject</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>CreateRecruiment</servlet-name>
-        <url-pattern>/createProject</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ViewRecruiment</servlet-name>
-        <url-pattern>/viewRecruiment</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>DeleteControl</servlet-name>
-        <url-pattern>/deleteControl</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>NotificationManage</servlet-name>
-        <url-pattern>/notificationManage</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ViewInterviewSchedule</servlet-name>
-        <url-pattern>/viewInterviewSchedule</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>InterviewScheduleManage</servlet-name>
-        <url-pattern>/interviewScheduleManage</url-pattern>
+        <servlet-name>ProjectManageByMentor</servlet-name>
+        <url-pattern>/projectManageByMentor</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>NotificationControl</servlet-name>
-        <url-pattern>/notification</url-pattern>
+        <url-pattern>/notificationControl</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ViewInterviewScheduleByMentor</servlet-name>
-        <url-pattern>/viewInterviewScheduleByMentor</url-pattern>
+        <servlet-name>CreateNotification</servlet-name>
+        <url-pattern>/createNotification</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ViewNotificationByIntern</servlet-name>
-        <url-pattern>/viewNotificationByIntern</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>DeleteNotification</servlet-name>
-        <url-pattern>/deleteNotification</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>CreateRecruiment</servlet-name>
-        <url-pattern>/createRecruiment</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>Attendance</servlet-name>
-        <url-pattern>/attendance</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ForgotPasssword</servlet-name>
-        <url-pattern>/forgotPasssword</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ValidateOtp</servlet-name>
-        <url-pattern>/validateOtp</url-pattern>
+        <servlet-name>DetailNotification</servlet-name>
+        <url-pattern>/detailNotification</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>home</welcome-file>
     </welcome-file-list>
+
 </web-app>
