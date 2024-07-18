@@ -15,10 +15,17 @@ import models.Certificate;
 import models.Positions;
 import models.Projects;
 import java.sql.Time;
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 import models.Account;
+import models.InternSchedule;
+import models.InternWithInternSchedule;
 import models.Interns;
+import models.InterviewSchedule;
 import models.Notifications;
 import models.Project;
+import models.ProjectWithPositions;
 
 
 
@@ -550,6 +557,182 @@ project.setProjectStartDay(rs.getDate("project_startday"));
             System.out.println("-----------------------");
         }
     }*/
+    
+    public List<Projects> getProjectsByUserId2(String userId) {
+        String query = "SELECT * FROM Projects WHERE mentor_id = ?";
+        List<Projects> list = new ArrayList<>();
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, userId);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Projects(rs.getString(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getDate(6),
+                        rs.getDate(7)));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
+    public List<InternWithInternSchedule> getInternsWithScheduleByProject(String projectCode) {
+        List<InternWithInternSchedule> list = new ArrayList<>();
+        String query = "SELECT a.*, s.start_date, s.end_date, i.intern_id,i.project_code, i.position_code \n"
+                + "FROM Account a \n"
+                + "JOIN InternSchedule s ON a.user_id = s.user_id \n"
+                + "JOIN Interns i ON a.user_id = i.user_id \n"
+                + "WHERE a.role_id = 5 AND i.project_code = ? \n"
+                + "ORDER BY s.schedule_id DESC";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, projectCode);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new InternWithInternSchedule(rs.getString(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getDate(5),
+                        rs.getString(6),
+                        rs.getString(7),
+                        rs.getString(8),
+                        rs.getString(9),
+                        rs.getInt(10),
+                        rs.getByte(11),
+                        rs.getDate(13),
+                        rs.getDate(14),
+                        rs.getInt(15),
+                        rs.getString(16),
+                        rs.getString(17)
+                ));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
+    public List<InternWithInternSchedule> getInternsWithSchedule() {
+        List<InternWithInternSchedule> list = new ArrayList<>();
+        String query = "SELECT a.*, s.start_date, s.end_date, i.intern_id,i.project_code, i.position_code \n"
+                + "FROM Account a JOIN InternSchedule s ON a.user_id = s.user_id JOIN Interns i ON a.user_id = i.user_id WHERE a.role_id = 5\n"
+                + "ORDER BY s.schedule_id DESC";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new InternWithInternSchedule(rs.getString(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getDate(5),
+                        rs.getString(6),
+                        rs.getString(7),
+                        rs.getString(8),
+                        rs.getString(9),
+                        rs.getInt(10),
+                        rs.getByte(11),
+                        rs.getDate(13),
+                        rs.getDate(14),
+                        rs.getInt(15),
+                        rs.getString(16),
+                        rs.getString(17)
+                ));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+    
+    public Map<String, Integer> getPresentDaysByUserId() {
+        Map<String, Integer> presentDaysMap = new HashMap<>();
+        String query = "SELECT i.user_id, COUNT(a.status) AS present_days "
+                + "FROM interns i "
+                + "LEFT JOIN attendance a ON i.intern_id = a.intern_id AND a.status = 'present' "
+                + "GROUP BY i.user_id";
+
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                String userId = rs.getString("user_id");
+                int presentDays = rs.getInt("present_days");
+                presentDaysMap.put(userId, presentDays);
+            }
+        } catch (Exception e) {
+        }
+
+        return presentDaysMap;
+    }
+    
+    public Map<String, String> getAllPositions() {
+        Map<String, String> positions = new HashMap<>();
+        String query = "SELECT position_code, position_name FROM positions";
+
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                String positionCode = rs.getString("position_code");
+                String positionName = rs.getString("position_name");
+                positions.put(positionCode, positionName);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return positions;
+    }
+    
+    public InternSchedule getInternSchedule(String userId) {
+        InternSchedule schedule = null;
+        String query = "SELECT start_date, end_date FROM InternSchedule WHERE user_id = ?";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, userId);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                schedule = new InternSchedule();
+                schedule.setStartDate(rs.getDate("start_date").toLocalDate());
+                schedule.setEndDate(rs.getDate("end_date").toLocalDate());
+            }
+        } catch (Exception e) {
+        }
+        return schedule;
+    }
+    
+    public Map<LocalDate, String> getAttendanceRecords(String userId) {
+        Map<LocalDate, String> attendanceRecords = new HashMap<>();
+        String query = "SELECT date, status FROM attendance WHERE intern_id = (SELECT intern_id FROM interns WHERE user_id = ?)";
+
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, userId);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                LocalDate date = rs.getDate("date").toLocalDate();
+                String status = rs.getString("status");
+                attendanceRecords.put(date, status);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return attendanceRecords;
+    }
 }
     /*public static void main(String[] args) {
         MentorDAO projectDAO = new MentorDAO();
