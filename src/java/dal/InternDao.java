@@ -533,6 +533,72 @@ public class InternDao {
         }
         return notification;
     }
+    
+    public Date getInternStartDate(String userId) {
+        String query = "SELECT start_date FROM [InternSchedule] WHERE user_id = ?";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, userId);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getDate("start_date");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Date getInternEndDate(String userId) {
+        String query = "SELECT end_date FROM [InternSchedule] WHERE user_id = ?";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, userId);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getDate("end_date");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    public boolean hasAlreadyCheckedIn(int internId, Date date) {
+        String query = "SELECT COUNT(*) FROM [dbo].[Attendance] WHERE intern_id = ? AND date = ?";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, internId);
+            ps.setDate(2, new java.sql.Date(date.getTime()));
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    public String getInternName(String userId) {
+        String internName = "";
+        String query = "SELECT full_name FROM Account WHERE user_id = ?";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, userId);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                internName = rs.getString("full_name");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return internName;
+    }
 
     public static void main(String[] args) {
         InternDao dao = new InternDao();

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import models.Account;
+import models.AccountWithInternSchedule;
 import models.Role;
 
 /**
@@ -236,6 +237,137 @@ public class AdminDAO {
             closeResources();
         }
         return accountList;
+    }
+    
+    public void insertIPAddress(String ipAddress, String userId) {
+        String query = "INSERT INTO WifiIPAddress (ipAddress, user_id, created_at) VALUES (?, ?, GETDATE())";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, ipAddress);
+            ps.setString(2, userId);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public String getLatestIPAddress() {
+        String query = "SELECT TOP 1 ipAddress FROM WifiIPAddress ORDER BY created_at DESC";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getString("ipAddress");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    public List<Account> getCandidatesWithoutSchedule() {
+        List<Account> list = new ArrayList<>();
+        String query = "SELECT a.*\n"
+                + "FROM Account a\n"
+                + "LEFT JOIN InternSchedule i ON a.user_id = i.user_id\n"
+                + "WHERE a.role_id = 6 AND i.user_id IS NULL or a.role_id = 5 AND i.user_id IS NULL;";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Account(rs.getString(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getDate(5),
+                        rs.getString(6),
+                        rs.getString(7),
+                        rs.getString(8),
+                        rs.getString(9),
+                        rs.getInt(10),
+                        rs.getByte(11)
+                ));
+            }
+        } catch (Exception e) {
+        }
+        return list;
+    }
+    
+    public List<AccountWithInternSchedule> getCandidatesWithSchedule() {
+        List<AccountWithInternSchedule> list = new ArrayList<>();
+        String query = "SELECT a.*, s.start_date, s.end_date \n"
+                + "FROM Account a JOIN InternSchedule s ON a.user_id = s.user_id WHERE a.role_id = 6 or a.role_id = 5\n"
+                + "order by s.schedule_id desc";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new AccountWithInternSchedule(rs.getString(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getDate(5),
+                        rs.getString(6),
+                        rs.getString(7),
+                        rs.getString(8),
+                        rs.getString(9),
+                        rs.getInt(10),
+                        rs.getByte(11),
+                        rs.getDate(13),
+                        rs.getDate(14)
+                ));
+            }
+        } catch (Exception e) {
+        }
+        return list;
+    }
+    
+    public boolean updateScheduleForCandidate(String user_id, Date startDate, Date endDate) {
+        String query = "UPDATE InternSchedule SET start_date = ?, end_date = ? WHERE user_id = ?";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+           ps.setDate(1, (java.sql.Date) startDate);
+            ps.setDate(2, (java.sql.Date) endDate);
+            ps.setString(3, user_id);
+            int rowsAffected = ps.executeUpdate();
+            return rowsAffected > 0;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    public boolean hasInternSchedule(String user_id) {
+        String query = "SELECT * FROM InternSchedule WHERE user_id = ?";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, user_id);
+            rs = ps.executeQuery();
+            return rs.next();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    public void createScheduleForCandidate(String user_id, Date startDate, Date endDate) {
+        String query = "INSERT INTO InternSchedule (user_id, start_date, end_date) VALUES (?, ?, ?)";
+        try {
+            conn = new DBContext().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, user_id);
+            ps.setDate(2, (java.sql.Date) startDate);
+            ps.setDate(3, (java.sql.Date) endDate);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     // Close resources to avoid memory leaks
