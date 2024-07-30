@@ -31,15 +31,17 @@ public class ViewSetIPAddress extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession();
+         HttpSession session = request.getSession();
         Account acc = (Account) session.getAttribute("account");
         if (acc == null) {
             response.sendRedirect("login.jsp");
             return;
         }
         AdminDAO adminDao = new AdminDAO();
-        String latestIpAddress = adminDao.getLatestIPAddress();
-        request.setAttribute("latestIpAddress", latestIpAddress);
+        String latestStartIpAddress = adminDao.getLatestStartIPAddress();
+        String latestEndIpAddress = adminDao.getLatestEndIPAddress();
+        request.setAttribute("latestStartIpAddress", latestStartIpAddress);
+        request.setAttribute("latestEndIpAddress", latestEndIpAddress);
         request.getRequestDispatcher("IPAddress.jsp").forward(request, response);
     } 
 

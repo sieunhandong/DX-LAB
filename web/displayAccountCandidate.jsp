@@ -1,3 +1,6 @@
+<!-- Name: linhtk -->
+
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <!DOCTYPE html>
@@ -63,8 +66,7 @@
             <thead>
                 <tr>
                     <th>Roll Number</th>
-                    <th>Usename</th>
-                    <th>Password</th>
+                    <th>Email</th>
                     <th>Full Name</th>
                 </tr>
             </thead>
@@ -73,7 +75,6 @@
                     <tr>
                         <td>${account.user_id}</td>
                         <td>${account.username}</td>
-                        <td>${account.password}</td>
                         <td>${account.full_name}</td>
                     </tr>
                 </c:forEach>

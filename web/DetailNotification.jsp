@@ -81,15 +81,13 @@
                             <p class="card-text">Room: <strong>${notification.room}</strong></p>
                             <p class="card-text">Time: <strong>${notification.time}</strong></p>
                             <p class="card-text">Date: <strong>${notification.date_start}</strong></p>
-                            <p class="card-text">Link: <strong>${notification.link}</strong></p>
+                            <p class="card-text">Link: <strong><a href="${notification.link}">${notification.link}</a></strong></p>
                             <h5>${notification.message}</h5>
                         </div>
                     </div>
                 </c:if>
             </div>
         </c:if>
-        <div class="footer">
-            <jsp:include page="footer.jsp"></jsp:include>
-        </div>
+       
     </body>
 </html>

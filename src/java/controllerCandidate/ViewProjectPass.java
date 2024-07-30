@@ -73,8 +73,8 @@ public class ViewProjectPass extends HttpServlet {
             //chuyển role thành intern
             int role = Integer.parseInt(request.getParameter("role"));
             edao.updateRole(role, user_id);
-            request.setAttribute("done", "Chuc mung ban da tro thanh Intern cua Project cos ProjectCode = " + projectCode);
-            request.getRequestDispatcher("Recruiment.jsp").forward(request, response);
+            request.setAttribute("done", "Congratulations on becoming an Intern at Project Code: " + projectCode);
+            request.getRequestDispatcher("ViewProjectPass.jsp").forward(request, response);
         }
 
     }

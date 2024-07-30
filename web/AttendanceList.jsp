@@ -138,16 +138,6 @@
             </c:if>
         </div>
 
-        <div class="container">
-            <h3>Attendance for ${formattedDate}</h3>
-            <form action="attendance" method="post">
-                <input type="hidden" name="user_id" value="${sessionScope.account.user_id}" />
-                <button type="submit" class="button">Attendance</button>
-            </form>
-            <br>
-            <div class="${not empty requestScope.message ? 'message' : 'error'}">
-                ${requestScope.message}
-            </div>
-        </div>
+        
     </body>
 </html>

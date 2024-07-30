@@ -241,9 +241,9 @@ public class MentorDAO {
     public List<Interns> getInternIdbyProject(String projectCode) {
         List<Interns> list = new ArrayList<>();
         String query = "SELECT  *\n"
-                + "                FROM Interns i\n"
-                + "                JOIN Projects p ON p.project_code = i.project_code\n"
-                + "                WHERE p.project_code LIKE ?";
+                + "FROM Interns i\n"
+                + "JOIN Projects p ON p.project_code = i.project_code\n"
+                + "WHERE p.project_code LIKE ?";
         try {
             conn = new DBContext().getConnection();
             ps = conn.prepareStatement(query);
@@ -311,7 +311,7 @@ public class MentorDAO {
     }
     //ham add notification
 
-    public void addNotification(String send_id, String project_code, String position_code, String message, String title, Time time, Date date_start, Date published_date, String room, String link) {
+    public void addNotification(String send_id, String project_code, String position_code, String message, String title, Time time, Date date_start,  String room, String link) {
         String query = "INSERT INTO [dbo].[Notifications]\n"
                 + "           ([sender_id]\n"
                 + "           ,[project_code]\n"
@@ -320,10 +320,9 @@ public class MentorDAO {
                 + "           ,[title]\n"
                 + "           ,[Time]\n"
                 + "           ,[date_start]\n"
-                + "           ,[published_date]\n"
                 + "           ,[room]\n"
                 + "           ,[link])\n"
-                + "     VALUES(?,?,?,?,?,?,?,?,?,?)";
+                + "     VALUES(?,?,?,?,?,?,?,?,?)";
 
         try {
             conn = new DBContext().getConnection();
@@ -335,9 +334,8 @@ public class MentorDAO {
             ps.setString(5, title);
             ps.setTime(6, time);
             ps.setDate(7, new java.sql.Date(date_start.getTime()));
-            ps.setDate(8, new java.sql.Date(published_date.getTime()));
-            ps.setString(9, room);
-            ps.setString(10, link);
+            ps.setString(8, room);
+            ps.setString(9, link);
             ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();

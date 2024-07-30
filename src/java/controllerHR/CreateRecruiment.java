@@ -56,10 +56,30 @@ public class CreateRecruiment extends HttpServlet {
             try {
                 Date startDay = dateFormat.parse(startDayStr);
                 Date endDay = dateFormat.parse(endDayStr);
+                Date currentDate = new Date();
                 // Kiểm tra mã dự án đã tồn tại chưa
                 if (projectDAO.isProjectCodeExists(projectCode)) {
                     request.setAttribute("allProjects", list);
                     request.setAttribute("InsertDone", "Create failed, Project Code exists");
+                    List<ProjectWithPositions> projects = (new HRDAO()).getAllProjectsWithPositions();
+                    request.setAttribute("showSearchProject", "Yes");
+                    request.setAttribute("allProjects", projects);
+                    request.getRequestDispatcher("RecruimentManage.jsp").forward(request, response);
+                    return;
+                }
+                if (startDay.after(endDay)) {
+                    request.setAttribute("InsertDone", "Start date must be before end date.");
+                    List<ProjectWithPositions> projects = (new HRDAO()).getAllProjectsWithPositions();
+                    request.setAttribute("showSearchProject", "Yes");
+                    request.setAttribute("allProjects", projects);
+                    request.getRequestDispatcher("RecruimentManage.jsp").forward(request, response);
+                    return;
+                }
+                if (startDay.before(currentDate)) {
+                    request.setAttribute("InsertDone", "The start date cannot be before the current date.");
+                    List<ProjectWithPositions> projects = (new HRDAO()).getAllProjectsWithPositions();
+                    request.setAttribute("showSearchProject", "Yes");
+                    request.setAttribute("allProjects", projects);
                     request.getRequestDispatcher("RecruimentManage.jsp").forward(request, response);
                     return;
                 }
@@ -71,6 +91,9 @@ public class CreateRecruiment extends HttpServlet {
                         if (positionCounts[i] < 1) {
                             request.setAttribute("allProjects", list);
                             request.setAttribute("InsertDone", "Create failed positionCount invalid");
+                            List<ProjectWithPositions> projects = (new HRDAO()).getAllProjectsWithPositions();
+                            request.setAttribute("showSearchProject", "Yes");
+                            request.setAttribute("allProjects", projects);
                             request.getRequestDispatcher("RecruimentManage.jsp").forward(request, response);
                             return;
                         }
@@ -84,7 +107,10 @@ public class CreateRecruiment extends HttpServlet {
             } catch (Exception e) {
                 request.setAttribute("InsertDone", "Create Failed");
             }
-            response.sendRedirect("manageRecruiment");
+            List<ProjectWithPositions> projects = (new HRDAO()).getAllProjectsWithPositions();
+            request.setAttribute("showSearchProject", "Yes");
+            request.setAttribute("allProjects", projects);
+            request.getRequestDispatcher("RecruimentManage.jsp").forward(request, response);
         }
     }
 
@@ -128,3 +154,4 @@ public class CreateRecruiment extends HttpServlet {
     }// </editor-fold>
 
 }
+    

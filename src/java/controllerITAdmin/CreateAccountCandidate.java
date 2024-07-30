@@ -1,27 +1,94 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
+ */
 package controllerITAdmin;
 
 import dal.AdminDAO;
-import dal.DBContext;
 import dal.ReadFileExcel;
+import java.io.IOException;
+import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import models.Account;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 
-@WebServlet(name = "CreateAccountCandidate", urlPatterns = {"/createAccountCandidate"})
+/**
+ *
+ * @author ADMIN
+ */
 @MultipartConfig
 public class CreateAccountCandidate extends HttpServlet {
 
+    /**
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+//        AdminDAO adminDao = new AdminDAO();
+//        String user_id = request.getParameter("user_id");
+//        String username = request.getParameter("username");
+//        String role_idStr = request.getParameter("role_id");
+//        try {
+//            int role_id = Integer.parseInt(role_idStr);
+//            // Kiểm tra định dạng của username
+//            if (!username.endsWith("@fpt.edu.vn") && !username.endsWith("@fe.edu.vn")) {
+//                request.setAttribute("messErrorUsername", "Username must end with @fpt.edu.vn or @fe.edu.vn.");
+//                request.getRequestDispatcher("createAccountCandidate.jsp").forward(request, response);
+//                return;
+//            }
+//            Account existingAccount = adminDao.getAccountByUsername(username);
+//            if (existingAccount != null) {
+//                request.setAttribute("successMessage", "This username is already registered.");
+//                request.getRequestDispatcher("createAccountCandidate.jsp").forward(request, response);
+//            } else {
+//                adminDao.createAccountCandidate(user_id, username, role_id);
+//                request.setAttribute("successMessage", "Account created successfully");
+//                request.getRequestDispatcher("createAccountCandidate.jsp").forward(request, response);
+//            }
+//        } catch (Exception e) {
+//            request.setAttribute("successMessage", "Account created unsuccessfully");
+//            request.getRequestDispatcher("createAccountCandidate.jsp").forward(request, response);
+//        }
+    }
+
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
+    }
+
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    
     private static final String UPLOAD_DIRECTORY = "uploads";
 
     @Override
@@ -41,13 +108,13 @@ public class CreateAccountCandidate extends HttpServlet {
 
         StringBuilder errorMessages = new StringBuilder();
         List<Account> validAccounts = validateAndProcessExcel(new File(filePath), errorMessages);
-
+        AdminDAO dao = new AdminDAO();
         if (errorMessages.length() > 0) {
             request.setAttribute("errorMessages", errorMessages.toString());
             request.getRequestDispatcher("displayError.jsp").forward(request, response);
         } else {
             for (Account account : validAccounts) {
-                saveAccountToDatabase(account);
+                dao.saveAccountToDatabase(account);
             }
             request.setAttribute("accounts", validAccounts);
             request.getRequestDispatcher("displayAccountCandidate.jsp").forward(request, response);
@@ -99,22 +166,7 @@ public class CreateAccountCandidate extends HttpServlet {
         return listOfAccounts;
     }
 
-    private void saveAccountToDatabase(Account account) {
-        String sql = "INSERT INTO Account (user_id, username, password, full_name, role_id) VALUES (?, ?, ?, ?, ?)";
-
-        try (Connection connection = new DBContext().getConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, account.getUser_id());
-            statement.setString(2, account.getUsername());
-            statement.setString(3, account.getPassword());
-            statement.setString(4, account.getFull_name());
-            statement.setInt(5, 6); // Set role_id to 6 by default
-
-            statement.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
+    
     private boolean isValidPasswordFormat(String password) {
         String regex = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@#$%^&+=!]).{8,}$";
         return password.matches(regex);

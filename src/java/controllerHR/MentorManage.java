@@ -48,8 +48,14 @@ public class MentorManage extends HttpServlet {
         }
         if (service.equals("detail")) {
             String messageIdStr = request.getParameter("messageId");
+            String mentorId = request.getParameter("mentorId");
+            Account mentorName = (new RecruimentDAO()).getMentorName(mentorId);
             int messageId = Integer.parseInt(messageIdStr);
             Recruitment mess = (new RecruimentDAO()).getMessageById(messageId);
+
+            String messageContent = mess.getMessage().replace("\n", "<br>"); 
+            request.setAttribute("messageContent", messageContent);
+            request.setAttribute("mentorName", mentorName);
             request.setAttribute("message", mess);
             request.getRequestDispatcher("ViewRecruimentByHR.jsp").forward(request, response);
         }

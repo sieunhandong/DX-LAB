@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.List;
 import models.Account;
 import models.Notifications;
+import models.Positions;
 
 /**
  *
@@ -55,12 +56,12 @@ public class CreateNotification extends HttpServlet {
         String service = request.getParameter("service");
         Account acc = (Account) request.getSession().getAttribute("account");
         String user_id = acc.getUser_id();
+
         if (service.equals("sendInsertDetail")) {
             String sendId = request.getParameter("send_id");
             String projectCode = request.getParameter("project_code");
             String positionCode = request.getParameter("position_code");
             String dateStr = request.getParameter("date");
-            String publishDateStr = request.getParameter("published_date");
             String timeStr = request.getParameter("time");
 
             String message = request.getParameter("message");
@@ -70,30 +71,39 @@ public class CreateNotification extends HttpServlet {
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             String timePattern = "^([01]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$";
-            if (!timeStr.matches(timePattern)) {
-                List<Notifications> list = (new MentorDAO()).getAllNotificationByMentor(projectCode);
-                request.setAttribute("allNotification", list);
-                request.setAttribute("InsertDone", "Create failed: Time format is incorrect! Please use HH:mm:ss format.");
-                request.getRequestDispatcher("Notification.jsp").forward(request, response);
-                return;
-            }
             try {
+                // Kiểm tra định dạng thời gian
+                if (!timeStr.matches(timePattern)) {List<Notifications> list = (new MentorDAO()).getAllNotificationByMentor(projectCode);
+                    request.setAttribute("allNotification", list);
+                    request.setAttribute("InsertDone", "Create failed: Time Format is incorrect! Please use the format HH:mm:ss.");
+                    request.getRequestDispatcher("Notification.jsp").forward(request, response);
+                    return;
+                }
+
+                // Kiểm tra ngày không được trước ngày hiện tại
                 Date dateStart = dateFormat.parse(dateStr);
-                Date publishDate = dateFormat.parse(publishDateStr);
+                Date currentDate = new Date();
+                if (dateStart.before(currentDate)) {
+                    request.setAttribute("InsertDone", "The start date cannot be before the current date.");
+                    List<Notifications> list = (new MentorDAO()).getAllNotificationByMentor(projectCode);
+                    request.setAttribute("allNotification", list);
+                    request.getRequestDispatcher("Notification.jsp").forward(request, response);
+                    return;
+                }
 
                 Time time = Time.valueOf(timeStr);
                 MentorDAO dao = new MentorDAO();
-                dao.addNotification(sendId, projectCode, positionCode, message, title, time, dateStart, publishDate, room, link);
-                request.setAttribute("InsertDone", "Create Successful!");
-                List<Notifications> list = (new MentorDAO()).getAllNotificationByMentor(projectCode);
-                request.setAttribute("allNotification", list);
-                request.getRequestDispatcher("Notification.jsp").forward(request, response);
+                dao.addNotification(sendId, projectCode, positionCode, message, title, time, dateStart, room, link);
+
+                request.setAttribute("InsertDone", "Create success!");
             } catch (ParseException e) {
-                request.setAttribute("InsertDone", "Insert failed: Invalid date or time format.");
+                request.setAttribute("InsertDone", "Create failed: Invalid date or time format.");
             } catch (Exception e) {
-                request.setAttribute("InsertDone", "Insert failed: " + e.getMessage());
+                request.setAttribute("InsertDone", "Create failed: " + e.getMessage());
             }
+
             List<Notifications> list = (new MentorDAO()).getAllNotificationByMentor(projectCode);
+            request.setAttribute("projectCode", projectCode);
             request.setAttribute("allNotification", list);
             request.getRequestDispatcher("Notification.jsp").forward(request, response);
         }

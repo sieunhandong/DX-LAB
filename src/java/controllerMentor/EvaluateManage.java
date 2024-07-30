@@ -71,28 +71,16 @@ public class EvaluateManage extends HttpServlet {
             String projectCode = request.getParameter("projectCode");
             String positionCode = request.getParameter("positionCode");
             edao.insertMidtermCore(internId, mentorId, type, attitude, soft_skills, technical_skills, total, comment, projectCode, positionCode);
-            request.setAttribute("done", "Done");
-            MentorDAO dao = new MentorDAO();
-            // lấy list projectname 
-            List<Project> projects = dao.getProjectsByUserId(userId);
-            request.setAttribute("projects", projects);
-
-            String selectedProject = request.getParameter("selectedProject");
-            request.setAttribute("selectedProject", selectedProject);
-
-            List<ReportsMentor> reportsList;
-            if (selectedProject != null && !selectedProject.isEmpty() && !selectedProject.equals("all")) {
-                reportsList = dao.getReportsByProjectName(selectedProject);
-            } else {
-
-                reportsList = dao.getAllReports();
-            }
-            request.setAttribute("reportsList", reportsList);
-            request.getRequestDispatcher("CheckReport.jsp").forward(request, response);
+            request.setAttribute("done", "Edit grade successfully!");
+            Evaluations evaluation = edao.getMitermByInternId(internId, projectCode);
+            request.setAttribute("evaluation", evaluation);
+            request.getRequestDispatcher("Midterm.jsp").forward(request, response);
 
         }
 
-        if (service.equals("Update")) {
+        if (service.equals("UpdateMidterm")) {
+            String fullName = request.getParameter("fullName");
+
             int internId = Integer.parseInt(request.getParameter("internId"));
             String projectCode = request.getParameter("projectCode");
             int evaluationId = Integer.parseInt(request.getParameter("evaluationId"));
@@ -100,10 +88,12 @@ public class EvaluateManage extends HttpServlet {
             int soft_skills = Integer.parseInt(request.getParameter("soft_skills_score"));
             int technical_skills = Integer.parseInt(request.getParameter("technical_skills_score"));
             String total = request.getParameter("total");
+            request.setAttribute("fullName", fullName);
+
             String comment = request.getParameter("comment");
             edao.updateCore(attitude, soft_skills, technical_skills, total, comment, evaluationId);
 
-            request.setAttribute("done", "Done");
+            request.setAttribute("done", "Grade successfully!");
             Evaluations evaluation = edao.getMitermByInternId(internId, projectCode);
             request.setAttribute("evaluation", evaluation);
             request.getRequestDispatcher("Midterm.jsp").forward(request, response);
@@ -121,6 +111,7 @@ public class EvaluateManage extends HttpServlet {
             request.getRequestDispatcher("Final.jsp").forward(request, response);
         }
         if (service.equals("InsertFinal")) {
+            String fullName = request.getParameter("fullName");
             int internId = Integer.parseInt(request.getParameter("internId"));
             String mentorId = request.getParameter("mentorid");
             String type = request.getParameter("type");
@@ -132,27 +123,18 @@ public class EvaluateManage extends HttpServlet {
             String projectCode = request.getParameter("projectCode");
             String positionCode = request.getParameter("positionCode");
             edao.insertFinalCore(internId, mentorId, type, attitude, soft_skills, technical_skills, total, comment, projectCode, positionCode);
-            request.setAttribute("done", "Done");
-            MentorDAO dao = new MentorDAO();
-            // lấy list projectname 
-            List<Project> projects = dao.getProjectsByUserId(userId);
-            request.setAttribute("projects", projects);
-
-            String selectedProject = request.getParameter("selectedProject");
-            request.setAttribute("selectedProject", selectedProject);
-
-            List<ReportsMentor> reportsList;
-            if (selectedProject != null && !selectedProject.isEmpty() && !selectedProject.equals("all")) {
-                reportsList = dao.getReportsByProjectName(selectedProject);
-            } else {
-
-                reportsList = dao.getAllReports();
-            }
-            request.setAttribute("reportsList", reportsList);
-            request.getRequestDispatcher("CheckReport.jsp").forward(request, response);
+            request.setAttribute("done", "Edit grade successfully!");
+            Evaluations evaluation = (new EvaluationDAO()).getFinalByInternId(internId, projectCode);
+            Intern intern = edao.getInternByInternId(internId);
+            request.setAttribute("fullName", fullName);
+            request.setAttribute("intern", intern);
+            request.setAttribute("internId", internId);
+            request.setAttribute("finalEvaluation", evaluation);
+            request.getRequestDispatcher("Final.jsp").forward(request, response);
 
         }
         if (service.equals("UpdateFinal")) {
+            String fullName = request.getParameter("fullName");
             int internId = Integer.parseInt(request.getParameter("internId"));
             String projectCode = request.getParameter("projectCode");
             int evaluationId = Integer.parseInt(request.getParameter("evaluationId"));
@@ -162,9 +144,12 @@ public class EvaluateManage extends HttpServlet {
             String total = request.getParameter("total");
             String comment = request.getParameter("comment");
             edao.updateCore(attitude, soft_skills, technical_skills, total, comment, evaluationId);
-
-            request.setAttribute("done", "Done");
-            Evaluations evaluation = edao.getMitermByInternId(internId, projectCode);
+            request.setAttribute("done", "Grade successfully!");
+            Evaluations evaluation = (new EvaluationDAO()).getFinalByInternId(internId, projectCode);
+            Intern intern = edao.getInternByInternId(internId);
+            request.setAttribute("fullName", fullName);
+            request.setAttribute("intern", intern);
+            request.setAttribute("internId", internId);
             request.setAttribute("finalEvaluation", evaluation);
             request.getRequestDispatcher("Final.jsp").forward(request, response);
         }

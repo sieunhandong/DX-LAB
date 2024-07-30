@@ -15,11 +15,14 @@
         <jsp:include page="header.jsp"></jsp:include>
             <div class="container mt-5">
                 <div class="row">
-                <c:if test="${empty list}">
-                    <h3>ban chua co du an nao pass</h3>
+                <c:if test="${done ne null}">
+                    <h3 class="font-weight-semi-bold  mb-3 text-danger">
+                        ${done}
+                    </h3>
                 </c:if>
+
                 <c:if test="${not empty list}">
-                    <h3>Ban Hay chon 1 du an duy nhat de tham gia</h3>
+                    <h3>Please choose only 1 project to participate</h3>
                     <c:forEach items="${list}" var="project">
                         <div class="col-md-6 mb-4">
                             <a href="viewProjectPass?service=detail&projectCode=${project.projectCode}&positionCode=${project.positionCode}">
